@@ -92,16 +92,16 @@ void Transform_To_Postfix( string infix, string &postfix){
             if (token.IsEmpty()) { 
                 token.Push(element) ; 
             } 
-  
-            else { 
-                if ( element == ')') { 
-                    while (token.GetTop() != '('){ 
-                        postfix.push_back(token.Pop()); 
-                        postfix.push_back(' ') ; 
-                    }
+            if ( element == ')') { 
+                while (token.GetTop() != '('){ 
+                    postfix.push_back(token.Pop()); 
+                    postfix.push_back(' ') ; 
                 }
+            }
+            else { 
+
                 if (Prioritize(element) < Prioritize(token.GetTop())) { 
-                    while (!token.IsEmpty() && Prioritize(element) < Prioritize(token.GetTop())){ 
+                    while (!token.IsEmpty() && Prioritize(element) < Prioritize(token.GetTop()) ){ 
                         postfix.push_back(token.Pop()) ; 
                         postfix.push_back(' ') ; 
                     }
@@ -124,14 +124,16 @@ void Transform_To_Postfix( string infix, string &postfix){
         else { 
             token.Pop() ; 
         }
-; 
     }
 }
 
 
 void Transforms_To_Prefix(string infix, string &prefix){ 
     
-    infix = 
+    infix = DeleteSpace(infix) ; 
+    int length = infix.length( ) ; 
+
+    for ( int i = 0; i  )
 }
 
 int main ( ) { 
@@ -157,3 +159,4 @@ int main ( ) {
 
 
 }
+
