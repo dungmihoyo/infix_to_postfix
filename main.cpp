@@ -71,11 +71,10 @@ int Prioritize( char token){
     }
 }
 
-void Transform( string infix, string &postfix){ 
+void Transform_To_Postfix( string infix, string &postfix){ 
     
-    char element , prev, swap; 
+    char element ; 
     Stack<char> token ;
-
     infix = DeleteSpace(infix) ;
     int length = infix.length() ;
     for ( int i = 0; i < length; i++){ 
@@ -86,38 +85,23 @@ void Transform( string infix, string &postfix){
             postfix.push_back(element); 
         }
 
-        // if (element = ')'){ 
-        //     while (prev = token.Pop() != '('){ 
-        //         if ( Prioritize(prev) <= Prioritize(token.GetTop())){ 
-        //             postfix.push_back(token.Pop()) ; 
-        //             postfix.push_back(' ') ;
-        //             token.Push(prev) ; 
-        //         }
-        //         else { 
-        //             postfix.push_back(prev) ; 
-        //             postfix.push_back(' ') ;
-        //         }
-        //     }
-        // }       
-
-        if (!isdigit(element)){
+        if (!isdigit(element) ){
 
             postfix.push_back(' ') ; 
-
-            // if (element == ')'){ 
-            //     while (token.GetTop() != '(' && !token.IsEmpty()){ 
-            //         prev = token.Pop(); 
-            //         postfix.push_back(prev) ; 
-            //         postfix.push_back(' ') ; 
-            //     }
-            // }
+            
             if (token.IsEmpty()) { 
                 token.Push(element) ; 
             } 
+  
             else { 
-
+                if ( element == ')') { 
+                    while (token.GetTop() != '('){ 
+                        postfix.push_back(token.Pop()); 
+                        postfix.push_back(' ') ; 
+                    }
+                }
                 if (Prioritize(element) < Prioritize(token.GetTop())) { 
-                    while (!token.IsEmpty()){ 
+                    while (!token.IsEmpty() && Prioritize(element) < Prioritize(token.GetTop())){ 
                         postfix.push_back(token.Pop()) ; 
                         postfix.push_back(' ') ; 
                     }
@@ -133,11 +117,22 @@ void Transform( string infix, string &postfix){
         }
     }
     while(!token.IsEmpty()){ 
-        postfix.push_back(token.Pop()); 
-        postfix.push_back(' ') ; 
+        if ( token.GetTop() != '(' ) { 
+            postfix.push_back(token.Pop()); 
+            postfix.push_back(' ') ;
+        }
+        else { 
+            token.Pop() ; 
+        }
+; 
     }
 }
 
+
+void Transforms_To_Prefix(string infix, string &prefix){ 
+    
+    infix = 
+}
 
 int main ( ) { 
     
@@ -155,10 +150,10 @@ int main ( ) {
     cout << "Enter Infit-Epression : " ; 
     getline(cin, infix_expresion);
     
-    Transform(infix_expresion, postfix_expresion) ; 
+    Transform_To_Postfix(infix_expresion, postfix_expresion) ; 
     cout << postfix_expresion<< endl; 
+    cout << infix_expresion; 
 
-    
-    return 0 ; 
+
 
 }
